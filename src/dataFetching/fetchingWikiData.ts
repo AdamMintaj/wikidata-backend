@@ -1,5 +1,5 @@
-import query from "./query.js";
-import { UnfilteredWikiData } from "./types.js";
+import { UnfilteredWikidata } from "./types.js";
+import query from "./wikidataQuery.js";
 
 const url = "https://query.wikidata.org/sparql";
 const options = {
@@ -13,22 +13,20 @@ const options = {
 };
 
 /**
- * Sends a query to wikidata sparql service using a predefined query.
- * @returns Raw response from wikidata
+ * Sends a query to Wikidata sparql service using a predefined query.
+ * @returns Raw response from Wikidata
  */
-async function fetchWikiData() {
+export async function fetchWikidata() {
   try {
     const response = await fetch(url, options);
 
     if (!response.ok)
       throw new Error(`Response status: ${response.status.toString()}`);
 
-    const data = (await response.json()) as UnfilteredWikiData;
+    const data = (await response.json()) as UnfilteredWikidata;
     return data;
   } catch (error) {
     console.error("Request failed:", error);
     throw error;
   }
 }
-
-export default fetchWikiData;

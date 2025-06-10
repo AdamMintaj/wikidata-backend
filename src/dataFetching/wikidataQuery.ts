@@ -4,7 +4,7 @@
  * - instances of humans,
  * - their name,
  * - short description,
- * - who have their height and image included
+ * - who have their height and image included.
  *
  * Additionally it includes the height unit and number of sitelinks.
  * Only hits with more than 100 sitelinks are returned - this ensures no random
@@ -16,6 +16,8 @@
  *
  * Generally it's good to experiment with the query, sometimes a seemingly minor change, like
  * not including number of sitelinks, can influence how many entries are returned.
+ *
+ * Wikidata Query Service to thest the query: https://query.wikidata.org
  */
 const query = `SELECT DISTINCT ?item ?itemLabel ?itemDescription ?sitelinks ?image ?heightValue ?heightUnitLabel
 WHERE {

@@ -10,7 +10,7 @@ export interface Entity {
   image: string;
 }
 
-export interface UnfilteredWikiData {
+export interface UnfilteredWikidata {
   head: Head;
   results: Results;
 }

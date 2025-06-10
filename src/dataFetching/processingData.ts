@@ -3,10 +3,10 @@ import {
   convertHeightToCentimeters,
   extractEntityId,
 } from "./helpers.js";
-import { Entity, UnfilteredWikiData } from "./types.js";
+import { Entity, UnfilteredWikidata } from "./types.js";
 
 /**
- * Data returned from wikidata query may have multiple entries for the same entity -
+ * Data returned from Wikidata query may have multiple entries for the same entity -
  * and usually they only differ in height value.
  *
  * This function takes formatted data returned by `extractData` function and gets rid
@@ -42,7 +42,7 @@ export function deduplicateDataByHeight(data: Entity[]) {
  * @param data Raw response from the Wikidata SPARQL query
  * @returns Array of `Entity` objects
  */
-export function extractData(data: UnfilteredWikiData) {
+export function extractData(data: UnfilteredWikidata) {
   const bindings = data.results.bindings;
 
   const extractedData = bindings.map((binding) => {
