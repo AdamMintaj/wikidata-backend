@@ -20,4 +20,10 @@ export default tseslint.config(
     },
   },
   perfectionist.configs["recommended-natural"],
+  {
+    rules: {
+      "perfectionist/sort-modules": "off",
+      "perfectionist/sort-interfaces": "off",
+    },
+  },
 );
