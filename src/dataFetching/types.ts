@@ -1,9 +1,13 @@
+export interface Timestamp {
+  timestamp: Date;
+}
+
 export interface Entity {
+  id: string;
+  name: string;
   description: string;
   height: number;
-  id: string;
   image: string;
-  name: string;
 }
 
 export interface UnfilteredWikiData {
