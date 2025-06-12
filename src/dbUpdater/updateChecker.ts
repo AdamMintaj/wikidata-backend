@@ -7,11 +7,11 @@ import { Timestamp } from "./types.js";
  * In a rare scenario where the database has no fetch logs it returns undefined.
  * @returns Promise that resolves to a Date or undefined
  */
-async function getLastWikidataFetchDate(): Promise<Date | undefined> {
+export async function getLastWikidataFetchDate(): Promise<Date | undefined> {
   const query =
     "SELECT timestamp FROM wikidata_fetch_logs ORDER BY id DESC LIMIT 1;";
-  const [response] = await queryDB<Timestamp>(query);
-  return response.timestamp;
+  const { rows } = await queryDB<Timestamp>(query);
+  return rows.length ? rows[0].timestamp : undefined;
 }
 
 /**

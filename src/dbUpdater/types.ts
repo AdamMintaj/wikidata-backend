@@ -1,3 +1,10 @@
+export interface FetchLogData {
+  successful: boolean;
+  entriesFetched: number;
+  entriesAdded: number;
+  durationSeconds: number;
+}
+
 export interface Timestamp {
   timestamp: Date;
 }

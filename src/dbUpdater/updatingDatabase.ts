@@ -1,5 +1,5 @@
 import { queryDB } from "../db.js";
-import { Entity } from "./types.js";
+import { Entity, FetchLogData } from "./types.js";
 
 /**
  * Creates a set of placeholders to use in sql query from an array of Entity objects.
@@ -35,8 +35,8 @@ function generateQueryPlaceholders(entities: Entity[]) {
  * @param entities Array of entities to add to the database
  * @returns
  */
-async function insertEntities(entities: Entity[]) {
-  if (entities.length == 0) return;
+export async function insertEntities(entities: Entity[]) {
+  if (entities.length == 0) return 0;
 
   const queryPlaceholders = generateQueryPlaceholders(entities);
   const values: Entity[keyof Entity][] = [];
@@ -57,7 +57,32 @@ async function insertEntities(entities: Entity[]) {
     ON CONFLICT (id) DO NOTHING;
   `;
 
-  await queryDB(query, values);
+  const { rowCount } = await queryDB(query, values);
+  return rowCount ?? 0;
 }
 
-export default insertEntities;
+/**
+ * Inserts a new fetch log to wikidata_fetch_logs table in the db.
+ *
+ * The data object should have:
+ * - `successful` (boolean) - whether the fetch-and-update operation was successful.
+ * - `entriesFetched` (number),
+ * - `entriesAdded` (number),
+ * - `durationSeconds (number)`
+ * @param data FetchLogData
+ */
+export async function insertNewFetchLog(data: FetchLogData) {
+  const query = `
+    INSERT INTO wikidata_fetch_logs (successful, entries_fetched, entries_added, duration_seconds)
+    VALUES ($1, $2, $3, $4)
+  `;
+
+  const values = [
+    data.successful,
+    data.entriesFetched,
+    data.entriesAdded,
+    data.durationSeconds,
+  ];
+
+  await queryDB(query, values);
+}
