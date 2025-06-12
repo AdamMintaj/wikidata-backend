@@ -60,3 +60,17 @@ export function extractEntityId(entityUri: string) {
 
   return searchString.exec(entityUri)?.[0] ?? null;
 }
+
+/**
+ * Calculates time passed between two dates and returns the difference in whole seconds
+ * @param dateA Date
+ * @param dateB Date
+ * @returns `number` - The time difference in whole seconds
+ */
+export function getTimeDifference(dateA: Date, dateB: Date) {
+  const timeA = dateA.getTime();
+  const timeB = dateB.getTime();
+
+  const difference = Math.abs(timeA - timeB);
+  return Math.round(difference / 1000);
+}
