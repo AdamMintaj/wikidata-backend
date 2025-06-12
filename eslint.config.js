@@ -24,6 +24,7 @@ export default tseslint.config(
     rules: {
       "perfectionist/sort-modules": "off",
       "perfectionist/sort-interfaces": "off",
+      "perfectionist/sort-objects": "off",
     },
   },
 );
