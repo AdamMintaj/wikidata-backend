@@ -16,7 +16,7 @@ const options = {
  * Sends a query to Wikidata sparql service using a predefined query.
  * @returns Raw response from Wikidata
  */
-export async function fetchWikidata() {
+async function fetchWikidata() {
   try {
     const response = await fetch(url, options);
 
@@ -30,3 +30,5 @@ export async function fetchWikidata() {
     throw error;
   }
 }
+
+export default fetchWikidata;
