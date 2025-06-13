@@ -84,5 +84,9 @@ export async function insertNewFetchLog(data: FetchLogData) {
     data.durationSeconds,
   ];
 
-  await queryDB(query, values);
+  try {
+    await queryDB(query, values);
+  } catch (error) {
+    console.error("Updating fetch logs failed", error);
+  }
 }
