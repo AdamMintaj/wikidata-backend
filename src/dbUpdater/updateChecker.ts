@@ -1,4 +1,5 @@
 import { queryDB } from "../db.js";
+import { handleError } from "./helpers.js";
 import { Timestamp } from "./types.js";
 
 /**
@@ -24,14 +25,12 @@ export async function getLastWikidataFetchDate(): Promise<Date | undefined> {
  * @returns Promise that resolves to a boolean
  */
 async function checkIfUpdateNeeded(): Promise<boolean> {
-  let lastWikidataFetchDate: Date | null;
+  let lastWikidataFetchDate: Date | undefined;
 
   try {
-    const date = await getLastWikidataFetchDate();
-    lastWikidataFetchDate = date ?? null;
+    lastWikidataFetchDate = await getLastWikidataFetchDate();
   } catch (error) {
-    console.warn("Getting last Wikidata fetch date failed", error);
-    return false;
+    handleError(error, "Getting last Wikidata fetch date failed:");
   }
 
   if (!lastWikidataFetchDate) return true;

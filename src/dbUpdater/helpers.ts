@@ -74,3 +74,21 @@ export function getTimeDifference(dateA: Date, dateB: Date) {
   const difference = Math.abs(timeA - timeB);
   return Math.round(difference / 1000);
 }
+
+/**
+ * Rethrows a given error with an optional new message added to the original error message.
+ *
+ * If the error is of type different than `Error`, then the whole error is turned
+ * to a string and included as the new thrown error's message.
+ * @param error The caught error to handle.
+ * @param message Optional message to add to the error.
+ */
+export function handleError(error: unknown, message?: string): never {
+  if (error instanceof Error) {
+    throw message ? new Error(`${message}: ${error.message}`) : error;
+  } else {
+    throw new Error(
+      `${message ?? ""} non-standard error: ${JSON.stringify(error)}`,
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import { queryDB } from "../db.js";
+import { handleError } from "./helpers.js";
 import { Entity, FetchLogData } from "./types.js";
 
 /**
@@ -57,8 +58,12 @@ export async function insertEntities(entities: Entity[]) {
     ON CONFLICT (id) DO NOTHING;
   `;
 
-  const { rowCount } = await queryDB(query, values);
-  return rowCount ?? 0;
+  try {
+    const { rowCount } = await queryDB(query, values);
+    return rowCount ?? 0;
+  } catch (error) {
+    handleError(error, "Inserting data into database failed:");
+  }
 }
 
 /**
@@ -73,8 +78,8 @@ export async function insertEntities(entities: Entity[]) {
  */
 export async function insertNewFetchLog(data: FetchLogData) {
   const query = `
-    INSERT INTO wikidata_fetch_logs (successful, entries_fetched, entries_added, duration_seconds)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO wikidata_fetch_logs (successful, entries_fetched, entries_added, duration_seconds, error_message)
+    VALUES ($1, $2, $3, $4, $5)
   `;
 
   const values = [
@@ -82,6 +87,7 @@ export async function insertNewFetchLog(data: FetchLogData) {
     data.entriesFetched,
     data.entriesAdded,
     data.durationSeconds,
+    data.errorMessage,
   ];
 
   try {

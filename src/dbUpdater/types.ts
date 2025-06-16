@@ -3,6 +3,7 @@ export interface FetchLogData {
   entriesFetched: number;
   entriesAdded: number;
   durationSeconds: number;
+  errorMessage?: string;
 }
 
 export interface Timestamp {

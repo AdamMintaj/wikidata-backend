@@ -1,3 +1,4 @@
+import { handleError } from "./helpers.js";
 import { UnfilteredWikidata } from "./types.js";
 import query from "./wikidataQuery.js";
 
@@ -26,8 +27,7 @@ async function fetchWikidata() {
     const data = (await response.json()) as UnfilteredWikidata;
     return data;
   } catch (error) {
-    console.error("Request failed:", error);
-    throw error;
+    handleError(error, "Wikidata request failed: ");
   }
 }
 
