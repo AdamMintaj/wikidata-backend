@@ -7,14 +7,9 @@ import { insertEntities, insertNewFetchLog } from "./updatingDatabase.js";
 
 async function updateDatabase() {
   const start = new Date();
-  const shouldUpdate = await checkIfUpdateNeeded();
+  let shouldUpdate;
 
-  if (!shouldUpdate) {
-    console.log("Update not needed. Exitting the updater.");
-    return;
-  }
-
-  const operationMetadata: FetchLogData = {
+  const updateMetadata: FetchLogData = {
     successful: false,
     entriesFetched: 0,
     entriesAdded: 0,
@@ -22,23 +17,38 @@ async function updateDatabase() {
   };
 
   try {
+    shouldUpdate = await checkIfUpdateNeeded();
+  } catch (error) {
+    const err = error as Error;
+    updateMetadata.errorMessage = err.message;
+    console.error(err.message);
+    await insertNewFetchLog(updateMetadata);
+    return;
+  }
+
+  if (!shouldUpdate) {
+    console.log("Update not needed. Exiting the updater.");
+    return;
+  }
+
+  try {
     const data = await fetchWikidata();
     const processedData = extractData(data);
-    operationMetadata.entriesFetched = processedData.length;
+    updateMetadata.entriesFetched = processedData.length;
 
     const dedupedData = deduplicateDataByHeight(processedData);
-    operationMetadata.entriesAdded = await insertEntities(dedupedData);
+    updateMetadata.entriesAdded = await insertEntities(dedupedData);
 
-    operationMetadata.successful = true;
+    updateMetadata.successful = true;
   } catch (error) {
-    console.log(error);
-    // handle errors and add error code and message to fetch log later
+    const err = error as Error;
+    console.error(err.message);
+    updateMetadata.errorMessage = err.message;
   } finally {
-    operationMetadata.durationSeconds = getTimeDifference(start, new Date());
-    // catch possible errors from insertNewFetchLog
-    await insertNewFetchLog(operationMetadata);
+    updateMetadata.durationSeconds = getTimeDifference(start, new Date());
+    await insertNewFetchLog(updateMetadata);
     console.log(
-      operationMetadata.successful
+      updateMetadata.successful
         ? "Updated the database successfully."
         : "Database update failed.",
     );
