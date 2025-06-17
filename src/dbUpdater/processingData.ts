@@ -2,6 +2,7 @@ import {
   capitalizeString,
   convertHeightToCentimeters,
   extractEntityId,
+  handleError,
 } from "./helpers.js";
 import { Entity, UnfilteredWikidata } from "./types.js";
 
@@ -10,28 +11,36 @@ import { Entity, UnfilteredWikidata } from "./types.js";
  * Each returned object represents a single, complete database entry.
  * Entries with missing or invalid data are excluded from the returned array.
  *
+ * Throws an error if the data cannot be procesed - although this is unlikely
+ * unless the structure of the SPARQL query changes.
+ *
  * @param data Raw response from the Wikidata SPARQL query
  * @returns Array of `Entity` objects
  */
 export function extractData(data: UnfilteredWikidata) {
   const bindings = data.results.bindings;
 
-  const extractedData = bindings.map((binding) => {
-    const entity = {
-      description: capitalizeString(binding.itemDescription.value),
-      height: convertHeightToCentimeters(
-        binding.heightValue.value,
-        binding.heightUnitLabel.value,
-      ),
-      id: extractEntityId(binding.item.value),
-      image: binding.image.value,
-      name: binding.itemLabel.value,
-    };
-    const hasNullValues = Object.values(entity).some((value) => value === null);
-    if (!hasNullValues) return entity as Entity;
-  });
-
-  return extractedData.filter((item) => item != undefined);
+  try {
+    const extractedData = bindings.map((binding) => {
+      const entity = {
+        description: capitalizeString(binding.itemDescription.value),
+        height: convertHeightToCentimeters(
+          binding.heightValue.value,
+          binding.heightUnitLabel.value,
+        ),
+        id: extractEntityId(binding.item.value),
+        image: binding.image.value,
+        name: binding.itemLabel.value,
+      };
+      const hasNullValues = Object.values(entity).some(
+        (value) => value === null,
+      );
+      if (!hasNullValues) return entity as Entity;
+    });
+    return extractedData.filter((item) => item != undefined);
+  } catch (error) {
+    handleError(error, "Extracting data failed");
+  }
 }
 
 /**

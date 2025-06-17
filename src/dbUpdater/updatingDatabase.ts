@@ -1,4 +1,4 @@
-import { queryDB } from "../db.js";
+import { AdvisoryLockKey, queryDB, queryDBWithLock } from "../db.js";
 import { handleError } from "./helpers.js";
 import { Entity, FetchLogData } from "./types.js";
 
@@ -33,8 +33,8 @@ function generateQueryPlaceholders(entities: Entity[]) {
 /**
  * Takes an array of Entity objects and inserts them into the database.
  * Entries already existing in the database are ignored.
- * @param entities Array of entities to add to the database
- * @returns
+ * @param entities Array of entities to add to the database.
+ * @returns `Promise` with a `number` of new entries added to the database.
  */
 export async function insertEntities(entities: Entity[]) {
   if (entities.length == 0) return 0;
@@ -59,7 +59,11 @@ export async function insertEntities(entities: Entity[]) {
   `;
 
   try {
-    const { rowCount } = await queryDB(query, values);
+    const { rowCount } = await queryDBWithLock(
+      query,
+      AdvisoryLockKey.INSERTING_ENTITIES,
+      values,
+    );
     return rowCount ?? 0;
   } catch (error) {
     handleError(error, "Inserting data into database failed:");
