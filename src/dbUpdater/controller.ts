@@ -5,6 +5,19 @@ import { FetchLogData } from "./types.js";
 import checkIfUpdateNeeded from "./updateChecker.js";
 import { insertEntities, insertNewFetchLog } from "./updatingDatabase.js";
 
+/**
+ * Runs the process of updating the database with new data from Wikidata in following steps:
+ *
+ * - Checks if an update is needed (update period can be set in env variable)
+ * - If an update is due, fetches data from Wikidata
+ * - Processes the data
+ * - Inserts new entries to the database
+ * - Logs the outcome to the console and adds a new log to the database
+ *
+ * Any caught errors are included in the logs stored in the database.
+ *
+ * @returns `Promise<void>` that resolves when the update process is complete.
+ */
 async function updateDatabase() {
   const start = new Date();
   let shouldUpdate;
