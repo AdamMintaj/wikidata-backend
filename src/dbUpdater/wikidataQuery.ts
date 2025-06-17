@@ -1,4 +1,9 @@
 /**
+ * IMPORTANT: The variable names in this query (e.g., ?itemLabel, ?height) are set
+ * arbitrarily here and are not a part of Wikidata's schema. If you modify this
+ * query, be sure to update the associated types and the `fetchWikidata` and
+ * `extractData` functions accordingly.
+ *
  * SPARQL query for fetching data from wikidata. It searches for:
  *
  * - instances of humans,
