@@ -29,7 +29,7 @@ export const checkAPIKey = (
 
   if (key != process.env.API_KEY) {
     res.status(403).json({
-      status: "error",
+      status: "fail",
       message: "Request not authorized",
     });
     return;
@@ -73,7 +73,7 @@ export const checkOrigin = (
 
   if (!origin || origin !== process.env.API_ALLOWED_ORIGIN) {
     res.status(403).json({
-      status: "error",
+      status: "fail",
       message: "Request not authorized",
     });
     return;
