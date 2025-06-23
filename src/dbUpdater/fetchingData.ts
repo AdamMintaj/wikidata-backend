@@ -8,7 +8,7 @@ const options = {
   headers: {
     Accept: "application/sparql-results+json",
     "Content-Type": "application/x-www-form-urlencoded",
-    "User-Agent": "my-app/1.0",
+    "User-Agent": "WikidataProjectBackend/1.0 (maliszewski.aa@gmail.com)",
   },
   method: "POST",
 };
