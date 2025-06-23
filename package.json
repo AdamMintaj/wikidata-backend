@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/server.js",
   "type": "module",
+  "author": "Adam Maliszewski",
+  "license": "ISC",
   "scripts": {
     "dev": "tsx --watch src/server.ts",
     "start": "node dist/server.js",
@@ -12,8 +14,6 @@
     "clean": "tsc --build --clean",
     "build": "npm run clean && tsc"
   },
-  "author": "Adam Maliszewski",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
