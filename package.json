@@ -15,6 +15,7 @@
   "author": "Adam Maliszewski",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "pg": "^8.16.0"
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@tsconfig/node22": "^22.0.2",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.29",
     "@types/pg": "^8.15.4",
