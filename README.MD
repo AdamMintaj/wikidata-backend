@@ -42,4 +42,4 @@ The access to the API is protected with:
 
 ### Project setup
 
-The project uses Typescript, ESLint and Prettier. It was setup based on this [guide](https://medium.com/@gabrieldrouin/node-js-2025-guide-how-to-setup-express-js-with-typescript-eslint-and-prettier-b342cd21c30d) for an express + typescript + eslint + prettier app.
+The project uses Typescript, ESLint and Prettier. It was setup based on this [guide](https://medium.com/@gabrieldrouin/node-js-2025-guide-how-to-setup-express-js-with-typescript-eslint-and-prettier-b342cd21c30d).
