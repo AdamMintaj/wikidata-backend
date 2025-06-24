@@ -24,6 +24,7 @@ The database has two tables:
 ## Database updater
 
 The updater is reponsible for periodically fetching data from Wikidata through [Wikidata Query Service](https://www.wikidata.org/wiki/Wikidata:Data_access#Wikidata_Query_Service) and updating the database with new entries to ensure it grows and has relevant data.
+
 Ideally, it would run on a scheduled basis (e.g., via cron), but I'm not a millionare so I'm using a free service to host the app, which means that it will be put to sleep when idle. This makes running scheduled operations problematic.
 To work around this, the updater runs on app startup and checks the latest log entry to see if an update is due.
 
@@ -42,6 +43,8 @@ The access to the API is protected with:
 - CORS,
 - API key,
 - custom origin-checking middleware.
+
+The api also has an unprotected endpoint at `/api/v1/ping`. It serves as a lightweight and simple wake-up signal from the frontend to reduce latency due to backend cold starts (again, because of free-tier hosting).
 
 ### Project setup
 
