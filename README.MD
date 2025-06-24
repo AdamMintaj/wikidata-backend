@@ -1,3 +1,6 @@
+TODO: Add link to frontend once deployed - on github and in root response
+TODO: Update env variables once frontend deployed
+
 # Wikidata Project Backend
 
 This app is the backend for a Wikidata project in my portfolio. It's built with Node.js and Express.
