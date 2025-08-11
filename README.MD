@@ -1,6 +1,3 @@
-TODO: Add link to frontend once deployed - on github and in root response
-TODO: Update env variables once frontend deployed
-
 # Wikidata Project Backend
 
 This app is the backend for a Wikidata project in my portfolio. It's built with Node.js and Express.
@@ -49,3 +46,11 @@ The api also has an unprotected endpoint at `/api/v1/ping`. It serves as a light
 ### Project setup
 
 The project uses Typescript, ESLint and Prettier. It was setup based on this [guide](https://medium.com/@gabrieldrouin/node-js-2025-guide-how-to-setup-express-js-with-typescript-eslint-and-prettier-b342cd21c30d).
+
+### Note to myself
+
+TODO: Add link to frontend once deployed - on github and in root response
+
+TODO: Update env variables once frontend is deployed
+
+TODO: update this file
