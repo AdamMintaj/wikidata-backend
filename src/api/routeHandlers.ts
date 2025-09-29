@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { queryDB } from "../db.js";
 import { Entity } from "../dbUpdater/types.js";
-import { checkId } from "./helpers.js";
+import { checkId, resolveImgUrls } from "./helpers.js";
 
 /**
  * Sends a 500 internal server error response with the given error's message.
@@ -78,10 +78,12 @@ export async function getEntry(req: Request, res: Response) {
       return;
     }
 
+    const withResolvedUrl = await resolveImgUrls(rows as Entity[]);
+
     res.status(200).json({
       status: "success",
       data: {
-        entry: rows[0],
+        entry: withResolvedUrl[0],
       },
     });
   } catch (error) {
@@ -113,10 +115,12 @@ export async function getRandomEntries(req: Request, res: Response) {
   try {
     const { rows } = await queryDB(query, [number]);
 
+    const withResolvedUrl = await resolveImgUrls(rows as Entity[]);
+
     res.status(200).json({
       status: "success",
       data: {
-        entries: rows,
+        entries: withResolvedUrl,
       },
     });
   } catch (error) {
